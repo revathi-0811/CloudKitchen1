@@ -75,7 +75,7 @@ annotate nnrg.kitchen with @(
             $Type : 'UI.ReferenceFacet',
             ID : 'kitchenInfoFacet',
             Label : 'kitchen Information',
-            Target : '@UI.FieldGroup#kitchenInformation',
+            Target : '@UI.FieldGroup#kitchenInformation',                       
         },
     ],    
 );
