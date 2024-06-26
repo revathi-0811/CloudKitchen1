@@ -65,3 +65,4 @@ annotate nnrg.ProductLocal with @(
         },
     ],    
 );
+

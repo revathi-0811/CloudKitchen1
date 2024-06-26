@@ -24,7 +24,8 @@ module.exports = cds.service.impl(async function(){
     this.before('READ','ProductLocal', async req => {
         //console.log(this.entities);
         const {Products, ProductLocal} = this.entities;
-        qry = SELECT.from(Products).columns([{ref:['Product']},{ref:['ProductType']},{ref:['ProductGroup']},{ref:['BaseUnit']},{ref:['to_Description'],expand:['*']}]).limit(1000);
+        console.log("Fired Read");
+        qry = SELECT.from(Products).columns([{ref:['Product']},{ref:['ProductType']},{ref:['ProductGroup']},{ref:['BaseUnit']},{ref:['to_Description'],expand:['*']}]).limit(10);
         let res = await productapi.run(qry);
 
         res.forEach((element) => {
@@ -39,4 +40,15 @@ module.exports = cds.service.impl(async function(){
         insqry = UPSERT.into(ProductLocal).entries(res);
         await cds.run(insqry);        
     } )
+
+    this.before('UPDATE','ProductLocal', async req => {
+        const {Products, ProductLocal, ProductDescription} = this.entities;
+        console.log(req.data);
+        console.log("Fired Update");
+
+        //delete(req.data.ProductDescription);
+        console.log(req.data);
+        updqry = UPDATE(ProductDescription).data({"ProductDescription":req.data.ProductDescription}).where({Product: req.data.Product, Language: 'EN'})
+        await productapi.run(updqry);
+    });
 })
