@@ -1,4 +1,3 @@
-const { indexof } = require('@cap-js/postgres/lib/func');
 const cds = require('@sap/cds');
  
 module.exports = cds.service.impl(async function(){
