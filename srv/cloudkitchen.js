@@ -50,4 +50,19 @@ module.exports = cds.service.impl(async function(){
         updqry = UPDATE(ProductDescription).data({"ProductDescription":req.data.ProductDescription}).where({Product: req.data.Product, Language: 'EN'})
         await productapi.run(updqry);
     });
+
+    this.before('CREATE','ProductLocal', async req => {
+        const {Products, ProductLocal, ProductDescription} = this.entities;
+
+        insqry = INSERT.into(Products).entries({"Product": req.data.Product, "ProductType": req.data.ProductType, "BaseUnit": req.data.BaseUnit,
+            "to_Description": [
+                {
+                "Product": req.data.Product,
+                "Language": "EN",
+                "ProductDescription": req.data.ProductDescription,
+                }
+            ]
+        });
+        await productapi.run(insqry);
+    });
 })
